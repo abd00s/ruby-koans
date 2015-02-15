@@ -30,7 +30,106 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # Your goal is to write the score method.
 
 def score(dice)
-  # You need to write this method
+  # This verbose version worked for up to 3; then started going out of hand
+  # dice.sort!
+  # score = 0
+  # # Case: Empty Array
+  # if dice.length == 0
+  #   score
+
+  # # Case: Array <= 3 
+  # elsif dice.length <= 3
+  #   repeat = dice.count(dice[0])
+  #   if repeat == 3
+  #     if dice[0] == 1
+  #       score += 1000
+  #     else
+  #       score += dice[0]*100
+  #     end
+  #   else
+  #     if dice[0] == 1
+  #       score += repeat*100
+  #     elsif dice[0] == 5
+  #       score += repeat*50
+  #     end
+  #   end
+
+  # # Case: 4 or 5 Array 
+  # else
+  #   length = dice.length
+  #   repeat = dice.count(dice[0])
+  #   if repeat == 5
+  #     if dice[0] == 1
+  #       score += 1000 + 2 * 100
+  #     elsif dice[0] == 5
+  #       score += (5 * 100) + (2 * 50)
+  #     else
+  #       score += dice[0]*100
+  #     end
+  #   elsif repeat == 4
+  #     if dice[0] == 1
+  #       score += 1000 + 100
+  #     elsif dice[0] = 5
+  #       score += (5 * 100) + 50
+  #     else
+  #       score += dice[0]*100
+
+  # Another paused approach
+  # counts = Hash.new(0)
+  # dice.each {|i| counts[i] += 1}    
+  # dice.uniq!
+  # score = 0
+  # dice.each do |elem|
+  #   if counts[elem] == 5
+  #     if elem == 1
+  #       score += 1200
+  #     elsif elem == 5  
+  #       score += 600  
+  #     else
+  #       score += elem * 100
+  #   elsif counts[elem] == 4
+  #     if elem == 1
+  #       score += 1100
+  #     elsif elem == 5 
+  #       score += 550
+  #     else
+  #       score += elem * 100
+  #     end  
+  #   elsif counts[elem] == 3
+  
+  # end         
+  
+  # end  
+
+
+  counts = Hash.new(0)
+  dice.each {|i| counts[i] += 1}    
+  dice.uniq!
+  score = 0
+  dice.each do |elem|
+    if elem == 1
+      case counts[elem]
+      when 5 then score += 1200
+      when 4 then score += 1100
+      when 3 then score += 1000
+      when 2 then score += 200
+      when 1 then score += 100
+      end
+    elsif elem == 5
+      case counts[elem]
+      when 5 then score += 600
+      when 4 then score += 550
+      when 3 then score += 500
+      when 2 then score += 100
+      when 1 then score += 50
+      end  
+    else
+      if counts[elem] >= 3
+        score += 100 * elem  
+      end  
+    end
+  end
+  score    
 end
 
 class AboutScoringProject < Neo::Koan
